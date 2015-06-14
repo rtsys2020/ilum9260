@@ -119,18 +119,6 @@ static struct spi_board_info ek_spi_devices[] = {
 		.chip_select	= 0,
 		.max_speed_hz	= 15 * 1000 * 1000,
 		.bus_num	= 1,
-	},
-	{	/* DataFlash chip */
-		.modalias	="spidev",
-		.chip_select	= 1,
-		.max_speed_hz	= 15 * 1000 * 1000,
-		.bus_num	= 1,
-	},
-	{	/* DataFlash chip */
-		.modalias	="spidev",
-		.chip_select	= 2,
-		.max_speed_hz	= 15 * 1000 * 1000,
-		.bus_num	= 1,
 	}
 #if !defined(CONFIG_MMC_AT91)
 	{	/* DataFlash chip */
