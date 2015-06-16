@@ -259,28 +259,43 @@ static struct gpio_led ek_leds[] = {
 		.default_trigger	= "none",
 	},
 	{	/* userled3 */
-		.name			= "RelayA",
+		.name			= "RelayO",
 		.gpio			= AT91_PIN_PA11,
-		.active_low		= 1,
+		.active_low		= 0,
 		.default_trigger	= "none",
 	},
 	{	/* userled4 */
-		.name			= "RelayB",
+		.name			= "RelayC",
+		.gpio			= AT91_PIN_PB17,
+		.active_low		= 0,
+		.default_trigger	= "none",
+	}
+
+,
+	{	
+		.name			= "Reset",
 		.gpio			= AT91_PIN_PB31,
+		.active_low		= 1,
+		.default_trigger	= "none",
+	},
+////////////////////////////////////////////////////////
+	{	/* userled4 */
+		.name			= "sim_e",
+		.gpio			= AT91_PIN_PB22,
 		.active_low		= 1,
 		.default_trigger	= "heartbeat",
 	}
 
 ,
 	{	
-		.name			= "Reset",
-		.gpio			= AT91_PIN_PB16,
+		.name			= "rtc_e",
+		.gpio			= AT91_PIN_PB19,
 		.active_low		= 1,
 		.default_trigger	= "none",
 	},
 	{	
-		.name			= "test",
-		.gpio			= AT91_PIN_PB17,
+		.name			= "lcd_e",
+		.gpio			= AT91_PIN_PB18,
 		.active_low		= 1,
 		.default_trigger	= "none",
 	}
@@ -312,14 +327,14 @@ static struct i2c_board_info __initdata ek_i2c_devices[] = {
 #if defined(CONFIG_KEYBOARD_GPIO) || defined(CONFIG_KEYBOARD_GPIO_MODULE)
 static struct gpio_keys_button ek_buttons[] = {
 	{
-		.gpio		= AT91_PIN_PA22,
+		.gpio		= AT91_PIN_PA28,
 		.code		= BTN_1,
 		.desc		= "Button 1",
 		.active_low	= 1,
 		.wakeup		= 1,
 	},
 	{
-		.gpio		= AT91_PIN_PA25,
+		.gpio		= AT91_PIN_PA27,
 		.code		= BTN_2,
 		.desc		= "Button 2",
 		.active_low	= 1,
@@ -333,7 +348,7 @@ static struct gpio_keys_button ek_buttons[] = {
 		.wakeup		= 1,
 	},
 	{
-		.gpio		= AT91_PIN_PA27,
+		.gpio		= AT91_PIN_PC15,
 		.code		= BTN_4,
 		.desc		= "IRQB",
 		.active_low	= 1,
@@ -342,7 +357,7 @@ static struct gpio_keys_button ek_buttons[] = {
 
 ,
 	{
-		.gpio		= AT91_PIN_PA28,
+		.gpio		= AT91_PIN_PA25,
 		.code		= BTN_4,
 		.desc		= "Relayfedback",
 		.active_low	= 1,
@@ -350,9 +365,25 @@ static struct gpio_keys_button ek_buttons[] = {
 	}
 ,
 	{
-		.gpio		= AT91_PIN_PA29,
+		.gpio		= AT91_PIN_PA24,
 		.code		= BTN_4,
 		.desc		= "PowAC",
+		.active_low	= 1,
+		.wakeup		= 1,
+	}
+,
+	{
+		.gpio		= AT91_PIN_PA23,
+		.code		= BTN_4,
+		.desc		= "rtc_i",
+		.active_low	= 1,
+		.wakeup		= 1,
+	}
+,
+	{
+		.gpio		= AT91_PIN_PA29,
+		.code		= BTN_4,
+		.desc		= "revp",
 		.active_low	= 1,
 		.wakeup		= 1,
 	}
@@ -375,19 +406,29 @@ static struct platform_device ek_button_device = {
 
 static void __init ek_add_device_buttons(void)
 {
-	at91_set_gpio_input(AT91_PIN_PA22, 1);	/* btn1 */
-	at91_set_deglitch(AT91_PIN_PA22, 1);
+	at91_set_gpio_input(AT91_PIN_PA23, 1);	/* btn1 */
+	at91_set_deglitch(AT91_PIN_PA23, 1);
+
 	at91_set_gpio_input(AT91_PIN_PA25, 1);	/* btn2 */
 	at91_set_deglitch(AT91_PIN_PA25, 1);
+
 	at91_set_gpio_input(AT91_PIN_PA26, 1);	/* btn3 */
 	at91_set_deglitch(AT91_PIN_PA26, 1);
+
 	at91_set_gpio_input(AT91_PIN_PA27, 1);	/* btn4 */
 	at91_set_deglitch(AT91_PIN_PA27, 1);
 
-	at91_set_gpio_input(AT91_PIN_PA28, 1);	
-	at91_set_deglitch(AT91_PIN_PA28, 1);
+	at91_set_gpio_input(AT91_PIN_PA24, 1);	
+	at91_set_deglitch(AT91_PIN_PA24, 1);
+
 	at91_set_gpio_input(AT91_PIN_PA29, 1);	
 	at91_set_deglitch(AT91_PIN_PA29, 1);
+
+	at91_set_gpio_input(AT91_PIN_PA28, 1);	
+	at91_set_deglitch(AT91_PIN_PA28, 1);
+
+	at91_set_gpio_input(AT91_PIN_PC15, 1);	
+	at91_set_deglitch(AT91_PIN_PC15, 1);
 
 	platform_device_register(&ek_button_device);
 }

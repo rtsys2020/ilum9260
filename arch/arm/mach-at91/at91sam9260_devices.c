@@ -717,7 +717,9 @@ static struct platform_device at91sam9260_spi1_device = {
 	.num_resources	= ARRAY_SIZE(spi1_resources),
 };
 
-static const unsigned spi1_standard_cs[4] = { AT91_PIN_PB3, AT91_PIN_PB18, AT91_PIN_PB19, AT91_PIN_PB22 };
+static const unsigned spi1_standard_cs[4] = { AT91_PIN_PC6, AT91_PIN_PC7, AT91_PIN_PC9, AT91_PIN_PC10 };
+
+//static const unsigned spi1_standard_cs[4] = { AT91_PIN_PB19, AT91_PIN_PB18, AT91_PIN_PB19, AT91_PIN_PB22 };
 //static const unsigned spi1_standard_cs[4] = { AT91_PIN_PB3, AT91_PIN_PC5, AT91_PIN_PC4, AT91_PIN_PC3 };
 void __init at91_add_device_spi(struct spi_board_info *devices, int nr_devices)
 {
@@ -1114,11 +1116,12 @@ static inline void configure_usart1_pins(unsigned pins)
 {
 	at91_set_A_periph(AT91_PIN_PB6, 1);		/* TXD1 */
 	at91_set_A_periph(AT91_PIN_PB7, 0);		/* RXD1 */
-
+#ifdef PIN
 	if (pins & ATMEL_UART_RTS)
 		at91_set_A_periph(AT91_PIN_PB28, 0);	/* RTS1 */
 	if (pins & ATMEL_UART_CTS)
 		at91_set_A_periph(AT91_PIN_PB29, 0);	/* CTS1 */
+#endif
 }
 
 static struct resource uart2_resources[] = {
@@ -1157,11 +1160,12 @@ static inline void configure_usart2_pins(unsigned pins)
 {
 	at91_set_A_periph(AT91_PIN_PB8, 1);		/* TXD2 */
 	at91_set_A_periph(AT91_PIN_PB9, 0);		/* RXD2 */
-
+#ifdef PIN
 	if (pins & ATMEL_UART_RTS)
 		at91_set_A_periph(AT91_PIN_PA4, 0);	/* RTS2 */
 	if (pins & ATMEL_UART_CTS)
 		at91_set_A_periph(AT91_PIN_PA5, 0);	/* CTS2 */
+#endif
 }
 
 static struct resource uart3_resources[] = {
@@ -1200,12 +1204,13 @@ static inline void configure_usart3_pins(unsigned pins)
 {
 	at91_set_A_periph(AT91_PIN_PB10, 1);		/* TXD3 */
 	at91_set_A_periph(AT91_PIN_PB11, 0);		/* RXD3 */
-
+#ifdef PIN
 	if (pins & ATMEL_UART_RTS)
 		at91_set_B_periph(AT91_PIN_PC8, 0);	/* RTS3 */
 	if (pins & ATMEL_UART_CTS)
 		at91_set_B_periph(AT91_PIN_PC10, 0);	/* CTS3 */
 
+#endif
 }
 
 static struct resource uart4_resources[] = {
@@ -1317,6 +1322,7 @@ void __init at91_register_uart(unsigned id, unsigned portnr, unsigned pins)
 			configure_usart3_pins(pins);
 			at91_clock_associate("usart3_clk", &pdev->dev, "usart");
 			break;
+/*
 		case AT91SAM9260_ID_US4:
 			pdev = &at91sam9260_uart4_device;
 			configure_usart4_pins();
@@ -1327,6 +1333,7 @@ void __init at91_register_uart(unsigned id, unsigned portnr, unsigned pins)
 			configure_usart5_pins();
 			at91_clock_associate("usart5_clk", &pdev->dev, "usart");
 			break;
+*/
 		default:
 			return;
 	}
